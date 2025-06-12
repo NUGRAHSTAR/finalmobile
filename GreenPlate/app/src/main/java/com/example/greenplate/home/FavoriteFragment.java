@@ -53,7 +53,7 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void loadFavoritResep() {
-        SharedPreferences prefs = requireContext().getSharedPreferences("favorit_resep", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences("favorit_resep", Context.MODE_PRIVATE);
         String json = prefs.getString("favorit_list", "");
 
         if (json.isEmpty()) {

@@ -12,14 +12,14 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    @GET("recipes") // Ganti endpoint API sesuai yang kamu punya
-    Call<List<Recipe>> getRecipesByPreference(@Query("preference") String preference);
     @GET("recipes/complexSearch")
     Call<ResepResponse> getRecipesByMealAndPreference(
-            @Query("type") String mealTime,
-            @Query("diet") String preference,
+            @Query("type") String mealType,
+            @Query("diet") String diet,
+            @Query("sort") String sort,
+            @Query("number") int number,
             @Query("apiKey") String apiKey
     );
-}
 
+}
 

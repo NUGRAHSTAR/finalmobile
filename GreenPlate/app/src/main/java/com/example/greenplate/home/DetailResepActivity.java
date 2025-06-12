@@ -31,7 +31,7 @@ public class DetailResepActivity extends AppCompatActivity {
     private TextView txtNamaResepDetail, txtIsiBahan, txtIsiCaraMasak;
 
     private SpoonacularApi api;
-    private static final String API_KEY = "eebfd99a2a8140e3be9b889b44e2ba2f";
+    private static final String API_KEY = "6278f30671e04195a0d0f5c1deaf802a";
     private static final String BASE_URL = "https://api.spoonacular.com/";
 
     @Override

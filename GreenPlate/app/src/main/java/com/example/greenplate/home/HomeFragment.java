@@ -1,5 +1,6 @@
 package com.example.greenplate.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,7 +38,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
-
+    private static final String apiKey = "fb1dd67bd3944bcdad738f746906adf5";
+    private ApiService apiService;
     private TextView greetingText;
     private RecyclerView breakfastRecyclerView, lunchRecyclerView, dinnerRecyclerView;
     private View errorLayout, contentLayout;
@@ -51,7 +53,6 @@ public class HomeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Inisialisasi view
         greetingText = view.findViewById(R.id.greetingTextView);
         breakfastRecyclerView = view.findViewById(R.id.breakfastRecyclerView);
         lunchRecyclerView = view.findViewById(R.id.lunchRecyclerView);
@@ -64,9 +65,9 @@ public class HomeFragment extends Fragment {
         lunchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         dinnerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        // Ambil data user dari SharedPreferences
-        SharedPreferences preferences = requireContext().getSharedPreferences("user_profile", Context.MODE_PRIVATE);
+        SharedPreferences preferences = getContext().getSharedPreferences("user_profile", Context.MODE_PRIVATE);
         String name = preferences.getString("name", "User");
+        Activity activity = getActivity();
         preference = preferences.getString("preference", "Vegetarian");
 
         greetingText.setText("Hi " + name + ", here are some " + preference + " recipes for you!");
@@ -103,15 +104,20 @@ public class HomeFragment extends Fragment {
     }
 
     private void fetchRecipesByMeal(String mealTime, String preference, RecyclerView recyclerView) {
+        String type = mapMealTimeToType(mealTime);
+
+
+
+
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.spoonacular.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ApiService apiService = retrofit.create(ApiService.class);
-        String apiKey = "eebfd99a2a8140e3be9b889b44e2ba2f";
 
-        Call<ResepResponse> call = apiService.getRecipesByMealAndPreference(mealTime, preference, apiKey);
+        Call<ResepResponse> call = apiService.getRecipesByMealAndPreference(mealTime, preference, "random", 6, apiKey);
 
         call.enqueue(new Callback<ResepResponse>() {
             @Override
@@ -119,41 +125,62 @@ public class HomeFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Resep> recipes = response.body().getResults();
 
-                    requireActivity().runOnUiThread(() -> {
-                        RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes, new RecipeAdapter.OnResepClickListener() {
-                            @Override
-                            public void onResepClick(Resep resep) {
-                                Intent intent = new Intent(getContext(), DetailResepActivity.class);
-                                intent.putExtra("resep_id", resep.getId());
-                                startActivity(intent);
-                            }
+                    if (isAdded()) {
+                        getActivity().runOnUiThread(() -> {
+                            RecipeAdapter adapter = new RecipeAdapter(getContext(), recipes, new RecipeAdapter.OnResepClickListener() {
+                                @Override
+                                public void onResepClick(Resep resep) {
+                                    Intent intent = new Intent(getContext(), DetailResepActivity.class);
+                                    intent.putExtra("resep_id", resep.getId());
+                                    startActivity(intent);
+                                }
 
-                            @Override
-                            public void onFavoriteClick(Resep resep) {
-                                Toast.makeText(getContext(), "Favorited: " + resep.getNama(), Toast.LENGTH_SHORT).show();
-                            }
+                                @Override
+                                public void onFavoriteClick(Resep resep) {
+                                    Toast.makeText(getContext(), "Favorited: " + resep.getNama(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            recyclerView.setAdapter(adapter);
+                            showLoading(false);
                         });
-
-                        recyclerView.setAdapter(adapter);
-                        showLoading(false);
-                    });
+                    }
                 } else {
                     Log.e("HomeFragment", mealTime + " API not successful: " + response.code());
-                    requireActivity().runOnUiThread(() -> showLoading(false));
+                    if (isAdded()) {
+                        getActivity().runOnUiThread(() -> showLoading(false));
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<ResepResponse> call, Throwable t) {
                 Log.e("HomeFragment", mealTime + " API call failed: " + t.getMessage());
-                requireActivity().runOnUiThread(() -> {
-                    showLoading(false);
-                    errorLayout.setVisibility(View.VISIBLE);
-                    Toast.makeText(getContext(), "Gagal memuat data. Periksa koneksi Anda.", Toast.LENGTH_LONG).show();
-                });
+
+                if (isAdded()) {
+                    getActivity().runOnUiThread(() -> {
+                        showLoading(false);
+                        errorLayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), "Gagal memuat data. Periksa koneksi Anda.", Toast.LENGTH_LONG).show();
+                    });
+                }
             }
         });
+
     }
+
+    private String mapMealTimeToType(String mealTime) {
+        switch (mealTime.toLowerCase()) {
+            case "breakfast":
+                return "breakfast";
+            case "lunch":
+            case "dinner":
+                return "main course"; // Keduanya disamakan, atau bisa dibedakan dengan kategori tambahan kalau ingin.
+            default:
+                return "main course";
+        }
+    }
+
 
     private void showLoading(boolean isLoading) {
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
