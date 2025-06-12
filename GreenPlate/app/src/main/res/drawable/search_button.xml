@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#DDEADE"/> <!-- Warna sage bulatan -->
+    <corners android:radius="20dp"/>
+</shape>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Tombol Mode Terang/Gelap -->
+        <ImageButton
+            android:id="@+id/themeToggleBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/light"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Toggle Theme"
+            android:layout_gravity="end"
+
+
+
+            android:layout_marginBottom="16dp" />
+
+        <!-- Foto Profil -->
+        <ImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/logo2"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/circle_border"
+            android:padding="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Foto Profil" />
+
+        <!-- Hiasan dan Judul -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="● ● ●   My Profile   ● ● ●"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#5B7741"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Data Profil -->
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/textbg"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="NUGRAH"
+            android:textColor="#5B7741"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ageTextView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="21 TAHUN"
+            android:background="@drawable/textbg"
+            android:textColor="#5B7741"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="16sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/genderTextView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="PEREMPUAN"
+            android:background="@drawable/textbg"
+            android:textColor="#5B7741"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:layout_marginBottom="12dp"
+            android:textSize="16sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/preferenceTextView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="VEGETARIAN"
+            android:background="@drawable/textbg"
+            android:textColor="#5B7741"
+            android:textStyle="bold"
+            android:padding="16dp"
+            android:layout_marginBottom="24dp"
+            android:textSize="16sp"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btnEditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#5B7741"
+            android:elevation="4dp"
+            android:text="Edit Profile"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>

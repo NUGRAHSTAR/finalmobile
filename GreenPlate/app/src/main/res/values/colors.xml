@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="garis">#5B7741</color>
+    <color name="cardBackground">#121212</color>
+    <color name="textPrimary">#A5D6A7</color> <!-- hijau muda -->
+    <color name="textSecondary">#BDBDBD</color> <!-- abu terang -->
+    <color name="favoriteTint">#F48FB1</color> <!-- pink muda -->
+    <color name="imageBg">#333333</color>
+    <color name="background">#FFFFFF</color>
+    <color name="textColor">#5B7741</color>
+
+
+        <!-- Tambahkan warna lain jika perlu -->
+
+
+
+</resources>
